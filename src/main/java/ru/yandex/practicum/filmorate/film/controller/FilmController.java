@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/films")
 public class FilmController {
+
     private final Map<Long, Film> films = new HashMap<>();
 
     @PostMapping
@@ -34,10 +35,10 @@ public class FilmController {
             oldFilm.setDescription(newFilm.getDescription());
             oldFilm.setReleaseDate(newFilm.getReleaseDate());
             oldFilm.setDuration(newFilm.getDuration());
-            log.info("Обнавлё фильм с id {}", oldFilm.getId());
+            log.info("Обнавлё фильм с id {}",oldFilm.getId());
             return oldFilm;
         }
-        log.error("Фильм с id {} не найден",newFilm.getId() );
+        log.error("Фильм с id {} не найден",newFilm.getId());
         throw new FilmNotFondException();
     }
 

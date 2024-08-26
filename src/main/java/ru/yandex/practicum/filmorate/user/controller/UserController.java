@@ -16,6 +16,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/users")
 public class UserController {
+
     private final Map<Long, User> users = new HashMap<>();
 
     @PostMapping
