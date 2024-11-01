@@ -3,23 +3,18 @@ package ru.yandex.practicum.filmorate.service;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
+import ru.yandex.practicum.filmorate.exseption.ValidationException;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.storage.film.FilmStorage;
-import ru.yandex.practicum.filmorate.storage.user.UserStorage;
 
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
 
 @Slf4j
 @Service
 public class FilmService {
-    private final Map<Long, Film> films = new HashMap<>();
-    private final UserStorage userStorage;
     private final FilmStorage filmStorage;
 
-    public FilmService(@Qualifier("InMemoryUserStorage") UserStorage userStorage, @Qualifier("InMemoryFilmStorage") FilmStorage filmStorage) {
-        this.userStorage = userStorage;
+    public FilmService(@Qualifier("InMemoryFilmStorage") FilmStorage filmStorage) {
         this.filmStorage = filmStorage;
     }
 
@@ -29,6 +24,10 @@ public class FilmService {
     }
 
     public Film updateFilm(Film newFilm) {
+        if (newFilm.getId() == null) {
+            log.error("Не указан id");
+            throw new ValidationException("Id должен быть указан");
+        }
         log.info("Обновление фильма.");
         return filmStorage.updateFilm(newFilm);
     }

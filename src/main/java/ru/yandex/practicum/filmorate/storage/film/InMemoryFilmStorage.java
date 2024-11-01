@@ -24,10 +24,6 @@ public class InMemoryFilmStorage implements FilmStorage {
 
     @Override
     public Film updateFilm(Film newFilm) {
-        if (newFilm.getId() == null) {
-            log.error("Не указан id");
-            throw new ValidationException("Id должен быть указан");
-        }
         if (films.containsKey(newFilm.getId())) {
             Film oldFilm = films.get(newFilm.getId());
             oldFilm.setName(newFilm.getName());

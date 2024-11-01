@@ -17,10 +17,6 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User createUser(User user) {
-        if (user.getName() == null || user.getName().isBlank()) {
-            log.info("Name для отображения не может быть пустым — в таком случае будет использован логин");
-            user.setName(user.getLogin());
-        }
         user.setId(getNextId());
         users.put(user.getId(), user);
         return user;
@@ -28,10 +24,6 @@ public class InMemoryUserStorage implements UserStorage {
 
     @Override
     public User updateUser(User newUser) {
-        if (newUser.getId() == null) {
-            log.error("Id должен быть указан");
-            throw new ValidationException("Id должен быть указан");
-        }
         if (users.containsKey(newUser.getId())) {
             User oldUser = users.get(newUser.getId());
             oldUser.setEmail(newUser.getEmail());
